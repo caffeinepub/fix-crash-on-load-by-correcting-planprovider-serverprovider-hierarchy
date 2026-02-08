@@ -1,0 +1,118 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Domain suffix selector update + paid plugins catalog and simulated purchase flow",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Restrict domain suffix options in server creation and ensure the chosen suffix is stored and consistently displayed.",
+      "acceptanceCriteria": [
+        "In the Create New Server dialog, the domain suffix dropdown lists: .org, .net, .fun, .gg, .play, .host, .xyz, .com (and no other suffixes).",
+        "Creating a server persists the chosen suffix in the server object and it appears consistently wherever the server domain is displayed."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ServerCreateDialog.tsx",
+          "operation": "modify",
+          "description": "Update the DOMAIN_SUFFIXES list to offer exactly: .org, .net, .fun, .gg, .play, .host, .xyz, .com; ensure the preview string renders the full domain correctly based on stored suffix. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Fix server domain display to consistently render the full domain using the stored domainSuffix (avoid double-dot rendering and ensure it matches the suffix saved on create). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ServerDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Fix server domain display to consistently render the full domain using the stored domainSuffix (avoid double-dot rendering and ensure it matches the suffix saved on create). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add a Paid Plugins section to the Plugins page with a large paid plugin catalog and per-card purchase actions.",
+      "acceptanceCriteria": [
+        "The Plugins page includes a clear navigation option (tab/section) for \"Paid Plugins\" in addition to the existing free plugin browsing/installed views.",
+        "The Paid Plugins list contains many paid plugin entries (not just a few) with name, description, and a visible purchase/owned state.",
+        "Clicking a paid plugin’s Purchase button opens the purchase flow UI (see REQ-3)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/plugins/paidPluginCatalog.ts",
+          "operation": "create",
+          "description": "Create a paid plugins catalog module containing many paid plugin entries (id/name/description/category/price metadata as needed by the UI) for use in the Paid Plugins section."
+        },
+        {
+          "path": "frontend/src/pages/PluginsPage.tsx",
+          "operation": "modify",
+          "description": "Add a new \"Paid Plugins\" tab/section alongside existing tabs; render a catalog grid of paid plugin cards with owned vs not-owned UI state and a Purchase action that opens the purchase flow dialog. Use existing shadcn-ui components (e.g., Tabs, Card, Badge, Button, Dialog) by composing them without editing files under frontend/src/components/ui; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/PaidPluginPurchaseDialog.tsx",
+          "operation": "create",
+          "description": "Implement a reusable purchase dialog component opened from the Paid Plugins cards that hosts the three purchase methods UI (wired in REQ-3). Use existing shadcn-ui Dialog/Tabs/Input/Button components by composing them without editing files under frontend/src/components/ui; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement simulated purchase flow (QR, redeem code, direct payment) and persist owned paid plugins per server; gate install until owned.",
+      "acceptanceCriteria": [
+        "Purchasing a paid plugin presents exactly three purchase methods: QR Code, Redeem Code, Direct Payment.",
+        "QR Code method displays a fake QR-style image that is randomly generated (visibly changes across openings/refreshes).",
+        "Redeem Code method provides a text input and treats any non-empty input as a successful redemption (no validation against a list).",
+        "Direct Payment method provides a recharge-style UI (e.g., amount/confirm) and, upon confirmation, marks the plugin as purchased with a success message (no real payment integration).",
+        "After completing any purchase method, the plugin is marked as owned for that server and remains owned after a full page reload.",
+        "If an owned paid plugin supports installation in the UI, installation is disabled/blocked until owned (and enabled once owned)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PaidPluginPurchaseDialog.tsx",
+          "operation": "modify",
+          "description": "Add the three-method purchase flow UI: (1) QR Code view that regenerates a random fake QR image each open/refresh, (2) Redeem Code input that succeeds for any non-empty code, (3) Direct Payment recharge-style confirmation UI that simulates success; on success, call back to mark plugin owned for the current server and show a success state. Use existing shadcn-ui components by composing them without editing files under frontend/src/components/ui; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/fakeQr.ts",
+          "operation": "create",
+          "description": "Add a small utility to generate a randomized fake QR-style image payload (e.g., data URL from canvas/SVG) so the QR visibly changes on each open/refresh."
+        },
+        {
+          "path": "frontend/src/pages/PluginsPage.tsx",
+          "operation": "modify",
+          "description": "Wire PaidPluginPurchaseDialog open/close per paid plugin card; reflect owned state per server; after a successful purchase, update the server’s owned paid plugins and ensure paid-plugin installation actions are disabled until the plugin is owned (and enabled once owned), reusing existing install/remove patterns where appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/servers/ServerContext.tsx",
+          "operation": "modify",
+          "description": "Ensure server creation initializes owned paid plugins state for new servers and that updates to owned paid plugins are persisted via the existing updateServer/saveServer flow."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Extend server types and localStorage loading/saving to support owned paid plugins per server with backwards-compatible defaults.",
+      "acceptanceCriteria": [
+        "TypeScript types include a field to represent owned/purchased paid plugins per server.",
+        "Loading older servers from localStorage (missing the new field) does not crash and defaults to an empty owned list.",
+        "Saving/updating servers writes the owned paid plugins state so it persists across reloads."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/servers/serverTypes.ts",
+          "operation": "modify",
+          "description": "Extend the MinecraftServer TypeScript type to include a per-server owned/purchased paid plugins field (e.g., ownedPaidPlugins: string[])."
+        },
+        {
+          "path": "frontend/src/servers/serverStorage.ts",
+          "operation": "modify",
+          "description": "Make localStorage loading backwards-compatible by normalizing parsed server records to default missing owned paid plugins to an empty array (and ensuring downstream code can safely consume the field); keep save behavior writing the new field when present."
+        },
+        {
+          "path": "frontend/src/servers/ServerContext.tsx",
+          "operation": "modify",
+          "description": "Update server creation to include the new owned paid plugins field by default and ensure all server updates preserve/propagate the field when saving."
+        }
+      ]
+    }
+  ]
+}

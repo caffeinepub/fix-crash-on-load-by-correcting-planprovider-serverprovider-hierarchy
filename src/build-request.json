@@ -1,0 +1,101 @@
+{
+  "kind": "build_request",
+  "title": "Add domain suffix selector and paid plugin purchase flow",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Update the server creation dialog domain suffix selector to offer exactly these options: .org, .net, .fun, .gg, .play, .host, .xyz, .com, and ensure the selected suffix is saved onto the created server record.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-10",
+          "recent-14"
+        ],
+        "quotes": [
+          "there should be an option to select domains eg .org, .net, .fun, .gg, .play, .host, .xyz, .com",
+          "start generating the new version now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "In the Create New Server dialog, the domain suffix dropdown lists: .org, .net, .fun, .gg, .play, .host, .xyz, .com (and no other suffixes).",
+        "Creating a server persists the chosen suffix in the server object and it appears consistently wherever the server domain is displayed."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add a new \"Paid Plugins\" section in the Plugins page that shows a catalog of paid plugins (add many entries) and allows users to start a purchase flow from each paid plugin card.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-11",
+          "recent-14"
+        ],
+        "quotes": [
+          "add as much as plugins you want in paid plugins now ready",
+          "start generating the new version now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Plugins page includes a clear navigation option (tab/section) for \"Paid Plugins\" in addition to the existing free plugin browsing/installed views.",
+        "The Paid Plugins list contains many paid plugin entries (not just a few) with name, description, and a visible purchase/owned state.",
+        "Clicking a paid plugin’s Purchase button opens the purchase flow UI (see REQ-3)."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement the paid-plugin purchase flow with three options: (1) QR code option that displays a randomly generated fake QR image each time it is opened/refreshed, (2) Redeem Code option that shows an input field and accepts any entered code as successful redemption, and (3) Direct Payment option that simulates a recharge-style payment and marks the plugin as purchased after confirmation; persist purchased/owned paid plugins per server so they remain owned after page reload.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-10",
+          "recent-14"
+        ],
+        "quotes": [
+          "when they will click on purchase on paid plugins area there should be 3 options 1st should be qr code just genrate a random fake qr code for that 2nd should be redeem code option when clicked on redeem code option there should be a inserting area where any code should work like even if its fake 3rd should be direct payment like doing recharge",
+          "start generating the new version now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Purchasing a paid plugin presents exactly three purchase methods: QR Code, Redeem Code, Direct Payment.",
+        "QR Code method displays a fake QR-style image that is randomly generated (visibly changes across openings/refreshes).",
+        "Redeem Code method provides a text input and treats any non-empty input as a successful redemption (no validation against a list).",
+        "Direct Payment method provides a recharge-style UI (e.g., amount/confirm) and, upon confirmation, marks the plugin as purchased with a success message (no real payment integration).",
+        "After completing any purchase method, the plugin is marked as owned for that server and remains owned after a full page reload.",
+        "If an owned paid plugin supports installation in the UI, installation is disabled/blocked until owned (and enabled once owned)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Extend the server data model and localStorage persistence to include owned/purchased paid plugins in a backwards-compatible way (existing saved servers without the new field must continue to load without crashing).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-10"
+        ],
+        "quotes": [
+          "add paid plugins part please add them now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "TypeScript types include a field to represent owned/purchased paid plugins per server.",
+        "Loading older servers from localStorage (missing the new field) does not crash and defaults to an empty owned list.",
+        "Saving/updating servers writes the owned paid plugins state so it persists across reloads."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit files under frontend/src/components/ui (compose existing UI components instead).",
+    "Do not edit any files listed as immutable in SYSTEM_CONTEXT (e.g., frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx).",
+    "Implement payment as simulation only; no real payment processor integration is required or expected."
+  ],
+  "nonGoals": [
+    "Implementing real payment processing (e.g., Stripe) or real QR-payment verification.",
+    "Validating redeem codes against a backend database or external service.",
+    "Adding new backend canisters/services or external databases."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

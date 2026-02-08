@@ -1,2 +1,3 @@
-# fix-crash-on-load-by-correcting-planprovider-serverprovider-hierarchy
-Exported from Caffeine project: Add domain suffix selector and paid plugin purchase flow
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

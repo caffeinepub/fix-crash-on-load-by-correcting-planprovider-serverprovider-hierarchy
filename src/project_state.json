@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a server-creation app with a domain selector and a paid-plugins section including a purchase flow (QR code, redeem code, direct payment).",
+  "architectural_notes": [
+    "Paid plugin purchase options are non-real/fake flows (random QR code; redeem accepts any code; direct payment is recharge-style without real processing)."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-update-the-server-creation-dialog-domain-suffix-selector-to-offer-exactly-these-options-org-net-fun-gg-play-host-xyz-com-and-ensure-the-selected-suffix-is-saved-onto-the-created-server-record",
+      "title": "Update the server creation dialog domain suffix selector to offer exactly these options: .org, .net, .fun, .gg, .play, .host, .xyz, .com, and ensure the selected suffix is saved onto the created server record.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-paid-plugins-section-in-the-plugins-page-that-shows-a-catalog-of-paid-plugins-add-many-entries-and-allows-users-to-start-a-purchase-flow-from-each-paid-plugin-card",
+      "title": "Add a new \"Paid Plugins\" section in the Plugins page that shows a catalog of paid plugins (add many entries) and allows users to start a purchase flow from each paid plugin card.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-paid-plugin-purchase-flow-with-three-options-1-qr-code-option-that-displays-a-randomly-generated-fake-qr-image-each-time-it-is-opened-refreshed-2-redeem-code-option-that-shows-an-input-field-and-accepts-any-entered-code-as-successful-redemption-and-3-direct-payment-option-that-simulates-a-recharge-style-payment-and-marks-the-plugin-as-purchased-after-confirmation-persist-purchased-owned-paid-plugins-per-server-so-they-remain-owned-after-page-reload",
+      "title": "Implement the paid-plugin purchase flow with three options: (1) QR code option that displays a randomly generated fake QR image each time it is opened/refreshed, (2) Redeem Code option that shows an input field and accepts any entered code as successful redemption, and (3) Direct Payment option that simulates a recharge-style payment and marks the plugin as purchased after confirmation; persist purchased/owned paid plugins per server so they remain owned after page reload.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-server-data-model-and-localstorage-persistence-to-include-owned-purchased-paid-plugins-in-a-backwards-compatible-way-existing-saved-servers-without-the-new-field-must-continue-to-load-without-crashing",
+      "title": "Extend the server data model and localStorage persistence to include owned/purchased paid plugins in a backwards-compatible way (existing saved servers without the new field must continue to load without crashing).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Add domain selector option during server creation (e.g., .org, .net, .fun, .gg, .play, .host, .xyz, .com).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add paid plugins section with many plugins and a purchase flow offering: (1) fake/random QR code, (2) redeem code input where any code is accepted, (3) direct payment/recharge-style option.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Add domain suffix selector and paid plugin purchase flow",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

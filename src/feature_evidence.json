@@ -1,0 +1,94 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-server-creation-dialog-domain-suffix-selector-to-offer-exactly-these-options-org-net-fun-gg-play-host-xyz-com-and-ensure-the-selected-suffix-is-saved-onto-the-created-server-record",
+      "featureTitle": "Update the server creation dialog domain suffix selector to offer exactly these options: .org, .net, .fun, .gg, .play, .host, .xyz, .com, and ensure the selected suffix is saved onto the created server record.",
+      "files": [
+        "frontend/src/components/ServerCreateDialog.tsx",
+        "frontend/src/pages/DashboardPage.tsx",
+        "frontend/src/pages/ServerDetailsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-new-paid-plugins-section-in-the-plugins-page-that-shows-a-catalog-of-paid-plugins-add-many-entries-and-allows-users-to-start-a-purchase-flow-from-each-paid-plugin-card",
+      "featureTitle": "Add a new \"Paid Plugins\" section in the Plugins page that shows a catalog of paid plugins (add many entries) and allows users to start a purchase flow from each paid plugin card.",
+      "files": [
+        "frontend/src/components/PaidPluginPurchaseDialog.tsx",
+        "frontend/src/pages/PluginsPage.tsx",
+        "frontend/src/plugins/paidPluginCatalog.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-the-paid-plugin-purchase-flow-with-three-options-1-qr-code-option-that-displays-a-randomly-generated-fake-qr-image-each-time-it-is-opened-refreshed-2-redeem-code-option-that-shows-an-input-field-and-accepts-any-entered-code-as-successful-redemption-and-3-direct-payment-option-that-simulates-a-recharge-style-payment-and-marks-the-plugin-as-purchased-after-confirmation-persist-purchased-owned-paid-plugins-per-server-so-they-remain-owned-after-page-reload",
+      "featureTitle": "Implement the paid-plugin purchase flow with three options: (1) QR code option that displays a randomly generated fake QR image each time it is opened/refreshed, (2) Redeem Code option that shows an input field and accepts any entered code as successful redemption, and (3) Direct Payment option that simulates a recharge-style payment and marks the plugin as purchased after confirmation; persist purchased/owned paid plugins per server so they remain owned after page reload.",
+      "files": [
+        "frontend/src/components/PaidPluginPurchaseDialog.tsx",
+        "frontend/src/pages/PluginsPage.tsx",
+        "frontend/src/servers/ServerContext.tsx",
+        "frontend/src/utils/fakeQr.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-extend-the-server-data-model-and-localstorage-persistence-to-include-owned-purchased-paid-plugins-in-a-backwards-compatible-way-existing-saved-servers-without-the-new-field-must-continue-to-load-without-crashing",
+      "featureTitle": "Extend the server data model and localStorage persistence to include owned/purchased paid plugins in a backwards-compatible way (existing saved servers without the new field must continue to load without crashing).",
+      "files": [
+        "frontend/src/servers/ServerContext.tsx",
+        "frontend/src/servers/serverStorage.ts",
+        "frontend/src/servers/serverTypes.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T05:11:47.828Z",
+  "summary": "Most core requirements appear implemented: domain suffix selector with exact options, paid plugins tab with a large catalog, and a simulated 3-method purchase dialog with per-server ownership persisted via server model + localStorage normalization. However, the diff summary is truncated in key areas, so some acceptance-criteria items cannot be confirmed from the provided evidence (notably installation gating until owned, and the presence of a recharge-style direct-payment UI beyond a simple confirm action).",
+  "missing_requirements": [
+    {
+      "id": "REQ-3",
+      "requirement": "If an owned paid plugin supports installation in the UI, installation is disabled/blocked until owned (and enabled once owned).",
+      "reason": "PluginsPage.tsx is truncated before the paid plugins card rendering/installation actions, so it’s not possible to verify that installation is blocked for unowned paid plugins and enabled after purchase.",
+      "evidence": [
+        "frontend/src/pages/PluginsPage.tsx (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Direct Payment method provides a recharge-style UI (e.g., amount/confirm) and, upon confirmation, marks the plugin as purchased with a success message.",
+      "reason": "PaidPluginPurchaseDialog.tsx is truncated within the TabsContent rendering; while direct payment state/handler exists, the actual UI elements (amount input + confirm) for the Direct Payment tab are not visible in the diff summary.",
+      "evidence": [
+        "frontend/src/components/PaidPluginPurchaseDialog.tsx (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [],
+  "confidence": 0.66,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/PaidPluginPurchaseDialog.tsx",
+    "frontend/src/components/ServerCreateDialog.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/PluginsPage.tsx",
+    "frontend/src/pages/ServerDetailsPage.tsx",
+    "frontend/src/plugins/paidPluginCatalog.ts",
+    "frontend/src/servers/ServerContext.tsx",
+    "frontend/src/servers/serverStorage.ts",
+    "frontend/src/servers/serverTypes.ts",
+    "frontend/src/utils/fakeQr.ts",
+    "project_state.json"
+  ]
+}
